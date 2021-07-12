@@ -49,7 +49,7 @@ public class EventControllerIT {
 		adminPassword = "123456";
 	}
 
-	@Test
+	@Test	// insert deve retornar 401 quando nenhum usuário logado
 	public void insertShouldReturn401WhenNoUserLogged() throws Exception {
 
 		EventDTO dto = new EventDTO(null, "Expo XP", LocalDate.of(2021, 5, 18), "https://expoxp.com.br", 1L);
@@ -64,7 +64,7 @@ public class EventControllerIT {
 		result.andExpect(status().isUnauthorized());
 	}
 
-	@Test
+	@Test	// O insert deve inserir o recurso quando o cliente registrar e corrigir os dados
 	public void insertShouldInsertResourceWhenClientLoggedAndCorrectData() throws Exception {
 
 		String accessToken = tokenUtil.obtainAccessToken(mockMvc, clientUsername, clientPassword);
@@ -112,7 +112,7 @@ public class EventControllerIT {
 		result.andExpect(jsonPath("$.cityId").value(1L));
 	}
 
-	@Test
+	@Test	// o insert deve retornar 422 quando o administrador estiver logado e o nome em branco
 	public void insertShouldReturn422WhenAdminLoggedAndBlankName() throws Exception {
 
 		String accessToken = tokenUtil.obtainAccessToken(mockMvc, adminUsername, adminPassword);
@@ -133,7 +133,7 @@ public class EventControllerIT {
 		result.andExpect(jsonPath("$.errors[0].message").value("Campo requerido"));
 	}
 
-	@Test
+	@Test	// o insert deve retornar 422 quando o administrador for registrado e data anterior
 	public void insertShouldReturn422WhenAdminLoggedAndPastDate() throws Exception {
 
 		String accessToken = tokenUtil.obtainAccessToken(mockMvc, adminUsername, adminPassword);
@@ -154,7 +154,7 @@ public class EventControllerIT {
 		result.andExpect(jsonPath("$.errors[0].message").value("A data do evento não pode ser passada"));
 	}
 
-	@Test
+	@Test		// O insert deve retornar 422 quando o Admin for registrado e a cidade nula
 	public void insertShouldReturn422WhenAdminLoggedAndNullCity() throws Exception {
 
 		String accessToken = tokenUtil.obtainAccessToken(mockMvc, adminUsername, adminPassword);
@@ -175,7 +175,7 @@ public class EventControllerIT {
 		result.andExpect(jsonPath("$.errors[0].message").value("Campo requerido"));
 	}
 
-	@Test
+	@Test	// encontrar deve retornar PagedResources
 	public void findAllShouldReturnPagedResources() throws Exception {
 		
 		ResultActions result =

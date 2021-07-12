@@ -62,7 +62,7 @@ public class CityControllerIT {
 		result.andExpect(status().isUnauthorized());
 	}
 	
-	@Test
+	@Test		// a inserção deve retornar 403 quando o cliente estiver conectado
 	public void insertShouldReturn403WhenClientLogged() throws Exception {
 
 		String accessToken = tokenUtil.obtainAccessToken(mockMvc, clientUsername, clientPassword);
